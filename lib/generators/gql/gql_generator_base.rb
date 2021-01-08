@@ -41,6 +41,24 @@ module Gql
         end
     end
 
+    def filter_names(fields)
+      fields.each do |field|
+        # TODO: probably better to map this and use a loop
+        if field[:name] == "book_id"
+          # Change the name to "book" and the type to "Book"
+          field[:name] = "book"
+          field[:gql_type] = "Types::Book"
+        elsif field[:name] == "user_id"
+          # Do the same thing for user as we did for book
+          field[:name] = "user"
+          field[:gql_type] = "Types::User"
+        elsif field[:name].end_with?("_id")
+          # This will be the general case
+          # TODO: write the general case
+        end
+      end
+    end
+
     def root_directory(namespace)
       "app/graphql/#{namespace.underscore}"
     end
@@ -56,12 +74,15 @@ module Gql
     end
 
     def class_with_fields(namespace, name, superclass, fields)
+      filter_names(fields)
       wrap_in_namespace(namespace) do |indent|
         klass = []
+        
         klass << sprintf("%sclass %s < %s", "  " * indent, name, superclass)
+        klass << sprintf("%sdescription \"This description of %s of type %s is a placeholder for better things to come\"", "  " * (indent + 1), field[:name], field[gql_type])
 
         fields.each do |field|
-          klass << sprintf("%sfield :%s, %s, null: %s", "  " * (indent + 1), field[:name], field[:gql_type], field[:null])
+          klass << sprintf("%sfield :%s, %s, null: %s #TEST", "  " * (indent + 1), field[:name], field[:gql_type], field[:null])
         end
 
         klass << sprintf("%send", "  " * indent)
