@@ -42,6 +42,7 @@ module Gql
     end
 
     def filter_names(fields)
+      puts "filter_names is running"
       fields.each do |field|
         # TODO: probably better to map this and use a loop
         if field[:name] == "book_id"
@@ -74,6 +75,7 @@ module Gql
     end
 
     def class_with_fields(namespace, name, superclass, fields)
+      puts "class_with_fields is running"
       filter_names(fields)
       wrap_in_namespace(namespace) do |indent|
         klass = []
