@@ -81,7 +81,7 @@ module Gql
         klass = []
         
         klass << sprintf("%sclass %s < %s", "  " * indent, name, superclass)
-        klass << sprintf("%sdescription \"This description of %s of type %s is a placeholder for better things to come\"", "  " * (indent + 1), field[:name], field[gql_type])
+        klass << sprintf("%sdescription \"This description is a placeholder for better things to come\"", "  " * (indent + 1))
 
         fields.each do |field|
           klass << sprintf("%sfield :%s, %s, null: %s #TEST", "  " * (indent + 1), field[:name], field[:gql_type], field[:null])
